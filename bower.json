@@ -1,0 +1,20 @@
+{
+  "name": "next-session-component",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Financial-Times/next-session-component",
+  "authors": [
+    "Paul I Wilson <paul.i.wilson@ft.com>"
+  ],
+  "main": "main.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "isomorphic-fetch": "~2.0.2"
+  }
+}
