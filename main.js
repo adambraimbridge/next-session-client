@@ -1,22 +1,32 @@
 'use strict';
 var request  = require('./src/request');
+var cache = require('./src/cache');
 
-function makeRequest(url){
-	return request(url).then(function(response){
-		return response.ok ? response.json() : Promise.resolve(false);
-	}).catch(function(e){
-		setTimeout(function(){
-			throw e;
-		}, 0);
-	})
-}
 
 function session(){
-	return makeRequest('/');
+	if(cache('email')){
+		return Promise.resolve(cache());
+	}
+
+	return request('/').then(function(sessionDetails){
+		cache(sessionDetails);
+		return sessionDetails;
+	});
 }
 
+session.uuid = function(){
+	if(cache('uuid')){
+		return Promise.resolve(cache('uuid'));
+	}
+
+	return request('/uuid').then(function(response){
+		cache('uuid', response.uuid);
+		return response.uuid;
+	});
+};
+
 session.validate = function(){
-	return makeRequest('/validate');
+	return request('/validate');
 };
 
 module.exports = session;

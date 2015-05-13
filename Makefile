@@ -1,7 +1,13 @@
 .PHONY: test
 
+clean:
+	git clean -xfd
+
+install:
+	npm install
+
 verify:
 	nbt verify
 
 test:
-	./node_modules/karma/bin/karma start
+	karma start
