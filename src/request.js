@@ -45,7 +45,12 @@ function request(url){
 
 	var requestFunc = ('XDomainRequest' in window) ? jsonpRequest : fetchRequest;
 	return requestFunc(url).then(function(response){
-		return response.ok ? response.json() : Promise.resolve(false);
+		if(response.ok){
+			return (url === '/validate') ? Promise.resolve(true) : response.json();
+		}else{
+			return Promise.resolve(false);
+		}
+
 	}).catch(function(e){
 		setTimeout(function(){
 			throw e;

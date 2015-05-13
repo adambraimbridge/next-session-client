@@ -3,7 +3,7 @@ var cache = require('../src/cache');
 var expect = require('chai').expect;
 
 
-describe.only('Cache', function(){
+describe('Cache', function(){
 
 	it('Should be able to save and retrieve an object', function(done){
 		var obj = {foo:'bar'};

@@ -25,4 +25,8 @@ function cache(name, value) {
 	throw new Error('Invalid arguments');
 }
 
+cache.clear = function(){
+	detailsCache = {};
+};
+
 module.exports = cache;

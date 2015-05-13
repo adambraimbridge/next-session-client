@@ -3,8 +3,9 @@ var request  = require('./src/request');
 var cache = require('./src/cache');
 
 
-function session(){
-	if(cache('email')){
+function details(){
+	// if it has products then it must've been a full call
+	if(cache('products')){
 		return Promise.resolve(cache());
 	}
 
@@ -14,19 +15,24 @@ function session(){
 	});
 }
 
-session.uuid = function(){
+function uuid(){
 	if(cache('uuid')){
-		return Promise.resolve(cache('uuid'));
+		return Promise.resolve({uuid:cache('uuid')});
 	}
 
 	return request('/uuid').then(function(response){
 		cache('uuid', response.uuid);
-		return response.uuid;
+		return response;
 	});
-};
+}
 
-session.validate = function(){
+function validate(){
 	return request('/validate');
-};
+}
 
-module.exports = session;
+module.exports = {
+	details : details,
+	uuid : uuid,
+	validate : validate,
+	cache : cache
+};
