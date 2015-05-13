@@ -70,6 +70,7 @@ module.exports = function(config) {
   };
 
 	if(process.env.TRAVIS){
+		configuration.singleRun = true;
 		configuration.browsers = ['PhantomJS', 'Chrome_travis_ci'];
 	}
 

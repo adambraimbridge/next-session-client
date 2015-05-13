@@ -11,10 +11,10 @@ function fetchRequest(url){
 }
 
 function jsonpRequest(url){
-	return new Promise(resolve, reject){
+	return new Promise(function(resolve, reject){
 		window.FT.$$$JSONP_CALLBACK = function(response){
 			resolve({ok:response.sucess, json:function(){
-				return Promise.resolve(response.data);
+				return Promise.resolve(JSON.parse(response.data));
 			}});
 		};
 
@@ -23,7 +23,7 @@ function jsonpRequest(url){
 		scriptTag.defer = true;
 		scriptTag.src = url + '?callback=$$$JSONP_CALLBACK';
 		document.body.appendChild(scriptTag);
-	}
+	});
 }
 
 module.exports = ('XDomainRequest' in window) ? jsonpRequest : fetchRequest;
