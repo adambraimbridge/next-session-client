@@ -1,4 +1,4 @@
-# next-session-component
+# Next Session Client
 
 A client for working with the Ft Next service from the front-end.
 
