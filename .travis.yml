@@ -4,5 +4,7 @@ node_js:
   - "0.12.2"
 before_install:
   - npm install -g karma-cli
+install:
+  - make install
 script:
   - make verify test

@@ -4,7 +4,7 @@ clean:
 	git clean -xfd
 
 install:
-	npm install
+	origami-build-tools install
 
 verify:
 	nbt verify --skip-layout-checks
