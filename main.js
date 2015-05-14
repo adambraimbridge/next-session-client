@@ -1,22 +1,38 @@
 'use strict';
 var request  = require('./src/request');
+var cache = require('./src/cache');
 
-function makeRequest(url){
-	return request(url).then(function(response){
-		return response.ok ? response.json() : Promise.resolve(false);
-	}).catch(function(e){
-		setTimeout(function(){
-			throw e;
-		}, 0);
-	})
+
+function details(){
+	// if it has products then it must've been a full call
+	if(cache('products')){
+		return Promise.resolve(cache());
+	}
+
+	return request('/').then(function(sessionDetails){
+		cache(sessionDetails);
+		return sessionDetails;
+	});
 }
 
-function session(){
-	return makeRequest('/');
+function uuid(){
+	if(cache('uuid')){
+		return Promise.resolve({uuid:cache('uuid')});
+	}
+
+	return request('/uuid').then(function(response){
+		cache('uuid', response.uuid);
+		return response;
+	});
 }
 
-session.validate = function(){
-	return makeRequest('/validate');
+function validate(){
+	return request('/validate');
+}
+
+module.exports = {
+	details : details,
+	uuid : uuid,
+	validate : validate,
+	cache : cache
 };
-
-module.exports = session;
