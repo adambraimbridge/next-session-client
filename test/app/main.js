@@ -17,5 +17,3 @@ function addClick(el){
 }
 
 [].slice.call(document.querySelectorAll('.buttons button'), 0).forEach(addClick);
-
-
