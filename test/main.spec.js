@@ -5,7 +5,7 @@ var session = require('../main');
 var sinon = require('sinon');
 var expect = require('chai').expect;
 
-describe.only('Session Client', function(){
+describe('Session Client', function(){
 
 	var jsonpCallbackName = '$$$JSONP_CALLBACK';
 
