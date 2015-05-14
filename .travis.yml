@@ -2,7 +2,5 @@ sudo: false
 language: node_js
 node_js:
   - "0.12"
-install:
-  - make install
 script:
   - make verify test

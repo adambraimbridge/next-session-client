@@ -33,9 +33,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.2.4",
     "next-build-tools": "^2.3.4",
-    "sinon": "^1.14.1"
-  },
-  "dependencies": {
+    "origami-build-tools": "^2.13.0",
     "sinon": "^1.14.1"
   }
 }

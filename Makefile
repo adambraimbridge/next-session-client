@@ -7,7 +7,7 @@ install:
 	npm install
 
 verify:
-	nbt verify
+	nbt verify --skip-layout-checks
 
 test:
 	karma start

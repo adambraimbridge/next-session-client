@@ -1,4 +1,6 @@
 'use strict';
+/*global describe, it, before, afterEach*/
+
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var request = require('../src/request');

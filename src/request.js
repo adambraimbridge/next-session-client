@@ -55,7 +55,7 @@ function request(url){
 		setTimeout(function(){
 			throw e;
 		}, 0);
-	})
+	});
 }
 
 module.exports = request;

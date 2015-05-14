@@ -1,4 +1,6 @@
 'use strict';
+/*global describe, it, before, afterEach*/
+
 var session = require('../main');
 var sinon = require('sinon');
 var expect = require('chai').expect;

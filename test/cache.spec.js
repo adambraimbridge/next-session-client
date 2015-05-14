@@ -1,4 +1,5 @@
 'use strict';
+/*global describe, it*/
 var cache = require('../src/cache');
 var expect = require('chai').expect;
 
