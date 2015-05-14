@@ -4,6 +4,7 @@ node_js:
   - "0.12.2"
 before_install:
   - npm install -g karma-cli
+  - npm install -g origami-build-tools
 install:
   - make install
 script:
