@@ -10,7 +10,7 @@ verify:
 	nbt verify --skip-layout-checks
 
 test:
-	karma start
+	./node_modules/karma/bin/karma start
 
 test-app:
 	rm -rf test/app/public/

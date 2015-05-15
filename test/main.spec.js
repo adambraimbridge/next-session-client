@@ -71,3 +71,22 @@ describe('Session Client', function(){
 	});
 
 });
+
+describe('Cookie helper', function() {
+	it('should extract the session id from document.cookie', function () {
+		'FTSession=;blah=blah;blurb=blurb;FTSession=hs9uy(S89`uxf9mymwapSDSA*&Ofnyszyo;thing=thing;'
+			.split(';').forEach(function (c) {
+				document.cookie = c + ';';
+			});
+
+		expect(session.cookie()).to.equal('hs9uy(S89`uxf9mymwapSDSA*&Ofnyszyo');
+	});
+
+	it('should extract missing session id from document.cookie', function () {
+		'FTSession=;blah=blah;blurb=blurb;thing=thing;'
+			.split(';').forEach(function (c) {
+				document.cookie = c + ';';
+			});
+		expect(session.cookie()).to.equal('');
+	});
+});
