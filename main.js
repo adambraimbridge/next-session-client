@@ -34,5 +34,8 @@ module.exports = {
 	details : details,
 	uuid : uuid,
 	validate : validate,
-	cache : cache
+	cache : cache,
+	cookie : function () {
+		return (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1];
+	}
 };
