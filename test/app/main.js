@@ -7,7 +7,10 @@ function handleClick(e){
 	var method = target.getAttribute('data-method');
 	console.log('Call method ' + method);
 	session[method]().then(function(response){
-		console.log(response);
+		console.log('Response from ' + method + ' is:');
+		console.dir(response);
+	}).catch(function(err){
+		console.error(err);
 	});
 }
 

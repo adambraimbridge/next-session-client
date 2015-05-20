@@ -27,7 +27,7 @@ A client for working with the Ft Next service from the front-end.
 		var uuid = data.uuid
 	});
 
-	// get session coookie
+	// get session cookie
 	session.cookie()
 
 ## Note

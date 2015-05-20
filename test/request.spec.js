@@ -68,7 +68,7 @@ describe('request', function(){
 		request('/').then(function(response){
 			sinon.assert.called(document.body.appendChild);
 			var script = document.body.appendChild.lastCall.args[0];
-			expect(script.src).to.equal('https://session-next.ft.com/?callback='+jsonpCallbackName);
+			expect(script.src).to.equal('https://session-next.ft.com/?callback=FT.'+jsonpCallbackName);
 			done();
 		}).catch(done);
 	});

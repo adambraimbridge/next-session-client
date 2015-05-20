@@ -4,13 +4,15 @@ var cache = require('./src/cache');
 
 
 function details(){
-	// if it has products then it must've been a full call
+	// cache contains products then we must've already done a details call
 	if(cache('products')){
 		return Promise.resolve(cache());
 	}
-
 	return request('/').then(function(sessionDetails){
-		cache(sessionDetails);
+		if(sessionDetails){
+			cache(sessionDetails);
+		}
+
 		return sessionDetails;
 	});
 }
