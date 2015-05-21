@@ -6,12 +6,19 @@ function handleClick(e){
 	var target = e.target;
 	var method = target.getAttribute('data-method');
 	console.log('Call method ' + method);
-	session[method]().then(function(response){
+	var result = session[method]();
+	if(result.then){
+		result.then(function(response){
+			console.log('Response from ' + method + ' is:');
+			console.dir(response);
+		}).catch(function(err){
+			console.error(err);
+		});
+	}else{
 		console.log('Response from ' + method + ' is:');
-		console.dir(response);
-	}).catch(function(err){
-		console.error(err);
-	});
+		console.dir(result);
+	}
+
 }
 
 function addClick(el){

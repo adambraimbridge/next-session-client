@@ -1,5 +1,5 @@
 'use strict';
-require('isomorphic-fetch');
+require('fetch');
 require('es6-promise').polyfill();
 
 var sessionServiceEndpoint = 'https://session-next.ft.com';
