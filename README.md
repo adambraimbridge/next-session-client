@@ -1,5 +1,5 @@
 # Next Session Client
-
+[![Build Status](https://snap-ci.com/Financial-Times/next-session-client/branch/master/build_image)](https://snap-ci.com/Financial-Times/next-session-client/branch/master)
 A client for working with the Ft Next service from the front-end.
 
 ## Installing
