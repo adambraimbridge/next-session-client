@@ -7,7 +7,10 @@ var request = require('../src/request');
 
 describe('request', function(){
 
-	var jsonpCallbackName = '$$$JSONP_CALLBACK';
+	var jsonpCallbackName = 'sessionServiceJsonpCallback_';
+	var jsonpCallbackNames = [];
+
+	var callbackName;
 
 	before(function(){
 		if(document.cookie.indexOf('FTSession=') < 0){
@@ -31,10 +34,12 @@ describe('request', function(){
 	}
 
 	function setupJsonp(response){
+		jsonpCallbackNames.push(jsonpCallbackName + (jsonpCallbackNames.length+1));
+		callbackName = jsonpCallbackNames[jsonpCallbackNames.length-1];
 		sinon.stub(document.body, 'appendChild', function(){
 			var jsonpResponse = JSON.stringify(response);
 			setTimeout(function(){
-				window.FT[jsonpCallbackName](jsonpResponse);
+				window.FT[callbackName](jsonpResponse);
 			}, 500);
 		});
 	}
@@ -68,9 +73,8 @@ describe('request', function(){
 		request('/').then(function(response){
 			sinon.assert.called(document.body.appendChild);
 			var script = document.body.appendChild.lastCall.args[0];
-			expect(script.src).to.equal('https://session-next.ft.com/?callback=FT.'+jsonpCallbackName);
+			expect(script.src).to.equal('https://session-next.ft.com/?callback=FT.'+callbackName);
 			done();
 		}).catch(done);
 	});
-
 });
