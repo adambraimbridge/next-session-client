@@ -1,31 +1,43 @@
 'use strict';
 var request  = require('./src/request');
 var cache = require('./src/cache');
-
+var promises = {};
 
 function details(){
 	// cache contains products then we must've already done a details call
-	if(cache('products')){
+	if (cache('products')){
 		return Promise.resolve(cache());
 	}
-	return request('/').then(function(sessionDetails){
-		if(sessionDetails){
-			cache(sessionDetails);
-		}
-
-		return sessionDetails;
-	});
+	if (!promises.session) {
+		promises.session = request('/').then(function(sessionDetails){
+			if(sessionDetails){
+				cache(sessionDetails);
+			}
+			return sessionDetails;
+		});
+		promises.uuid = promises.uuid || promises.session.then(function (sessionDetails) {
+			return {uuid: sessionDetails.uuid};
+		});
+	}
+	return promises.session;
 }
 
 function uuid(){
-	if(cache('uuid')){
-		return Promise.resolve({uuid:cache('uuid')});
+	var uuid = cache('uuid')
+
+	if (uuid){
+		return Promise.resolve({
+			uuid:uuid
+		});
+	}
+	if (!promises.uuid) {
+		promises.uuid = request('/uuid').then(function(response){
+			cache('uuid', response.uuid);
+			return response;
+		});
 	}
 
-	return request('/uuid').then(function(response){
-		cache('uuid', response.uuid);
-		return response;
-	});
+	return promises.uuid;
 }
 
 function validate(){
