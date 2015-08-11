@@ -63,10 +63,15 @@ function request(url){
 			return Promise.resolve(false);
 		}
 
-	}).catch(function(e){
-		setTimeout(function(){
-			throw e;
-		}, 0);
+	}).catch(function(e) {
+		if (e.message && e.message.indexOf('timed out') > -1) {
+			// HTTP timeouts are a fact of life on the internet.
+			// We don't want to report this to Sentry.
+		} else {
+			setTimeout(function() {
+				throw e;
+			}, 0);
+		}
 	});
 }
 
