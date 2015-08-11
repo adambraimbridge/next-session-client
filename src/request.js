@@ -64,7 +64,8 @@ function request(url){
 		}
 
 	}).catch(function(e) {
-		if (e.message && e.message.indexOf('timed out') > -1) {
+		var message = e.message || "";
+		if (message.indexOf('timed out') > -1 || e.message.indexOf('Network request failed') > -1) {
 			// HTTP timeouts are a fact of life on the internet.
 			// We don't want to report this to Sentry.
 		} else {
