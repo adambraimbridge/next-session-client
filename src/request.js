@@ -25,11 +25,26 @@ function jsonpRequest(url){
 		var callbackName = generateCallbackName();
 		var timeout;
 		window.FT[callbackName] = function(response){
-			response = JSON.parse(response);
-			resolve({ok:response.success, json:function(){
-				return Promise.resolve(response.data);
-			}});
-			if(timeout){
+
+			try {
+				response = JSON.parse(response);
+			} catch (e) {
+				reject(new Error('Error parsing session response'));
+				return;
+			}
+
+			if (response.success) {
+				resolve({
+					ok:response.success,
+					json: function(){
+						return Promise.resolve(response.data);
+					}
+				});
+			} else {
+				reject(new Error('JSONp session request failed: ' + url));
+			}
+
+			if (timeout){
 				clearTimeout(timeout);
 			}
 		};
@@ -51,16 +66,16 @@ function jsonpRequest(url){
 
 function request(url){
 	// if we don't have a session token cookie, don't bother..
-	if(document.cookie.indexOf('FTSession=') === -1){
-		return Promise.resolve(false);
+	if (document.cookie.indexOf('FTSession=') === -1) {
+		return Promise.reject(new Error('No session cookie found'));
 	}
 
 	var requestFunc = ('XDomainRequest' in window) ? jsonpRequest : fetchRequest;
 	return requestFunc(url).then(function(response){
-		if(response.ok){
+		if (response.ok){
 			return (url === '/validate') ? Promise.resolve(true) : response.json();
-		}else{
-			return Promise.resolve(false);
+		} else {
+			return (url === '/validate') ? Promise.resolve(false) : Promise.reject(response.status);
 		}
 
 	}).catch(function(e){
