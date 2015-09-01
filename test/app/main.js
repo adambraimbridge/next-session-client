@@ -1,5 +1,8 @@
 'use strict';
 
+require('fetch');
+require('es6-promise').polyfill();
+
 var session = require('../../main');
 
 function handleClick(e){

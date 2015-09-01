@@ -1,6 +1,4 @@
 'use strict';
-require('fetch');
-require('es6-promise').polyfill();
 
 var sessionServiceEndpoint = 'https://session-next.ft.com';
 var jsonpTimeout = 2000;
