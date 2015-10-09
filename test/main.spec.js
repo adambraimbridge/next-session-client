@@ -50,7 +50,6 @@ describe('Session Client', function(){
 	it('Should be able to get session uuid', function(done){
 		setup({uuid:sessionData.uuid}, true);
 		session.uuid().then(function(response){
-			debugger;
 			expect(response.uuid).to.equal(sessionData.uuid);
 			done();
 		}).catch(done);
