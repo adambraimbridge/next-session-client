@@ -12,6 +12,10 @@ A client for working with the Ft Next service from the front-end.
 
 	var session = require('ft-next-session-client');
 
+	session.validate().then(function(isValid){
+		// true or false
+	});
+
 	// get uuid from session
 	session.uuid().then(function(data){
 		// data will be false if session is invalid
