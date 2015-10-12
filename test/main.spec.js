@@ -9,12 +9,13 @@ describe('Session Client', function(){
 
 	var jsonpCallbackName = '$$$JSONP_CALLBACK';
 
-	var sessionData = {"erightsId":"11624548","passportId":"4011624548","uuid":"e1d24b36-30de-434d-a087-e04c17377ac7","title":"Mr","firstName":"Paul","lastName":"Wilson","emailAddress":"paul.i.wilson@ft.com","groups":"FT Current Staff,Organisations,Individuals","products":"P0,Tools,P2"};
+	var sessionData = {"uuid":"e1d24b36-30de-434d-a087-e04c17377ac7"};
 
 	before(function(){
 		if(document.cookie.indexOf('FTSession=') < 0){
 			document.cookie += 'FTSession=0-HSSzYw3kNN06CH4EwXN3rHzwAAAU1NL7xtww.MEYCIQDXxFJypS8uRn86Fjlcw9wVrf2vzC2kkd9XbcJmZpenrwIhAP0q2fTmfBa0WkJzGtnrwfcuIl3oBxXzwabrcHXE41xi';
 		}
+		session.cache.clear();
 	});
 
 	afterEach(function(){
@@ -45,14 +46,6 @@ describe('Session Client', function(){
 		setupFetch(data, success);
 		setupJsonp(data, success);
 	}
-
-	it('Should be able to get session details', function(done){
-		setup(sessionData, true);
-		session.details().then(function(sessionDetails){
-			expect(sessionDetails).to.deep.equal(sessionData);
-			done();
-		}).catch(done);
-	});
 
 	it('Should be able to get session uuid', function(done){
 		setup({uuid:sessionData.uuid}, true);
