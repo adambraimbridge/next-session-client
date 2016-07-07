@@ -47,7 +47,7 @@ describe('request', function(){
 	it('Should select the correct mechanism based on CORS support', function(done){
 		window.XDomainRequest = {};
 		setupJsonp({success:true,data:{}});
-		request('/').then(function(response){
+		request('/').then(function(){
 			sinon.assert.called(document.body.appendChild);
 			done();
 		}).catch(done);
@@ -56,7 +56,7 @@ describe('request', function(){
 	it('Should be able to make a CORS request to the session service', function(done){
 		var email = 'paul.i.wilson@ft.com';
 		setupFetch({email:email});
-		request('/').then(function(response){
+		request('/').then(function(){
 			try{
 				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {credentials:'include'});
 			}catch(e){
@@ -70,7 +70,7 @@ describe('request', function(){
 		var email = 'paul.i.wilson@ft.com';
 		window.XDomainRequest = {};
 		setupJsonp({success:true,data:{email:email}});
-		request('/').then(function(response){
+		request('/').then(function(){
 			sinon.assert.called(document.body.appendChild);
 			var script = document.body.appendChild.lastCall.args[0];
 			expect(script.src).to.equal('https://session-next.ft.com/?callback=FT.'+callbackName);
