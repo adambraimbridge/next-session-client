@@ -35,7 +35,6 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "lintspaces-cli": "^0.4.0",
     "mocha": "^2.2.4",
-    "next-build-tools": "^2.3.4",
     "origami-build-tools": "^2.13.0",
     "sinon": "^1.14.1"
   }
