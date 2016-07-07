@@ -1,5 +1,5 @@
 'use strict';
-var request  = require('./src/request');
+var request = require('./src/request');
 var cache = require('./src/cache');
 var promises = {};
 
