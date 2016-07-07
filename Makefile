@@ -1,16 +1,7 @@
-.PHONY: test
+include n.Makefile
 
-clean:
-	git clean -xfd
-
-install:
-	origami-build-tools install
-
-verify:
-	nbt verify --skip-layout-checks
-
-test:
-	./node_modules/karma/bin/karma start
+test: verify
+	karma start
 
 test-app:
 	rm -rf test/app/public/
