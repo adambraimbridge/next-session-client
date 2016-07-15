@@ -78,13 +78,19 @@ function request(url){
 
 	}).catch(function(e) {
 		var message = e.message || "";
-		if (message.indexOf('timed out') > -1 || message.indexOf('Network request failed') > -1) {
-			// HTTP timeouts are a fact of life on the internet.
+		if (message.indexOf('timed out') > -1 || message.indexOf('Network request failed') > -1 || message.indexOf('Not Found') > -1) {
+			// HTTP timeouts and invalid sessions are a fact of life on the internet.
 			// We don't want to report this to Sentry.
 		} else {
-			setTimeout(function() {
-				throw e;
-			}, 0);
+			document.body.dispatchEvent(new CustomEvent('oErrors.log', {
+				bubbles: true,
+				detail: {
+					error: e,
+					info: {
+						component: 'next-session-client'
+					}
+				}
+			}))
 		}
 	});
 }
