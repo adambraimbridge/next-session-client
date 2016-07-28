@@ -1,16 +1,11 @@
 'use strict';
 /*global describe, it, before, afterEach*/
 
-var expect = require('chai').expect;
 var sinon = require('sinon');
 var request = require('../src/request');
 
 describe('request', function(){
 
-	var jsonpCallbackName = 'sessionServiceJsonpCallback_';
-	var jsonpCallbackNames = [];
-
-	var callbackName;
 
 	before(function(){
 		if(document.cookie.indexOf('FTSession=') < 0){
@@ -19,7 +14,6 @@ describe('request', function(){
 	});
 
 	afterEach(function(){
-		delete window.XDomainRequest;
 		if(document.body.appendChild.restore){
 			document.body.appendChild.restore();
 		}
@@ -33,47 +27,15 @@ describe('request', function(){
 		window.fetch = sinon.stub().returns(Promise.resolve({ok:true, json:jsonFunc}));
 	}
 
-	function setupJsonp(response){
-		jsonpCallbackNames.push(jsonpCallbackName + (jsonpCallbackNames.length+1));
-		callbackName = jsonpCallbackNames[jsonpCallbackNames.length-1];
-		sinon.stub(document.body, 'appendChild', function(){
-			var jsonpResponse = JSON.stringify(response);
-			setTimeout(function(){
-				window.FT[callbackName](jsonpResponse);
-			}, 500);
-		});
-	}
-
-	it('Should select the correct mechanism based on CORS support', function(done){
-		window.XDomainRequest = {};
-		setupJsonp({success:true,data:{}});
-		request('/').then(function(){
-			sinon.assert.called(document.body.appendChild);
-			done();
-		}).catch(done);
-	});
-
 	it('Should be able to make a CORS request to the session service', function(done){
 		var email = 'paul.i.wilson@ft.com';
 		setupFetch({email:email});
 		request('/').then(function(){
 			try{
-				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {credentials:'include'});
+				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {credentials:'include', useCorsProxy: true});
 			}catch(e){
 				done(e);
 			}
-			done();
-		}).catch(done);
-	});
-
-	it('Should be able to make a JSONP request to the session service', function(done){
-		var email = 'paul.i.wilson@ft.com';
-		window.XDomainRequest = {};
-		setupJsonp({success:true,data:{email:email}});
-		request('/').then(function(){
-			sinon.assert.called(document.body.appendChild);
-			var script = document.body.appendChild.lastCall.args[0];
-			expect(script.src).to.equal('https://session-next.ft.com/?callback=FT.'+callbackName);
 			done();
 		}).catch(done);
 	});
