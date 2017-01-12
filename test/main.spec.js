@@ -9,7 +9,7 @@ describe('Session Client', function(){
 
 	var jsonpCallbackName = '$$$JSONP_CALLBACK';
 
-	var sessionData = {"uuid":"e1d24b36-30de-434d-a087-e04c17377ac7"};
+	var sessionData = {"uuid":"e1d24b36-30de-434d-a087-e04c17377ac7", "products": "P0, P1"};
 
 	before(function(){
 		if(document.cookie.indexOf('FTSession=') < 0){
@@ -61,6 +61,14 @@ describe('Session Client', function(){
 			expect(isValid).to.be.false;
 			done();
 		}).catch(done);
+	});
+
+	it('Should be able to get the user\'s products', function(){
+		setup({uuid:sessionData.uuid, products:sessionData.products}, true);
+		return session.products().then(function(response) {
+			console.log(response);
+			expect(response.products).to.equal(sessionData.products);
+		});
 	});
 
 });
