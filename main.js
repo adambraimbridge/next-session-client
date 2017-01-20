@@ -32,7 +32,7 @@ function products(){
 	if(!promises.products){
 		promises.products = request('/products').then(function(response){
 			cache('products', response.products);
-			cache('uuid', response.products);
+			cache('uuid', response.uuid);
 			return response;
 		});
 	}
