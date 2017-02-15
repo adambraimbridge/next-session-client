@@ -23,7 +23,7 @@ function uuid(){
 
 function products(){
 	const cachedProducts = cache('products');
-	const cachedUUID = cache('uuid-products');
+	const cachedUUID = cache('uuid');
 
 	if(cachedProducts && cachedUUID){
 		return Promise.resolve({products:cachedProducts, uuid:cachedUUID});
@@ -32,7 +32,7 @@ function products(){
 	if(!promises.products){
 		promises.products = request('/products').then(function(response){
 			cache('products', response.products);
-			cache('uuid-products', response.uuid);
+			cache('uuid', response.uuid);
 			return response;
 		});
 	}
