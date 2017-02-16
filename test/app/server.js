@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
 'use strict';
 
-var express = require('express');
-var app = express();
-var PORT = 5656;
-var path = require('path');
+const express = require('express');
+const app = express();
+const PORT = 5656;
+const path = require('path');
 
-app.get('/', function(req, res){
+app.get('/', function (req, res){
 	app.use(express.static(path.resolve(__dirname, 'public')));
 	res.sendFile(path.resolve(__dirname, './index.html'));
 });

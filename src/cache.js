@@ -1,9 +1,9 @@
 'use strict';
 
-var detailsCache = {};
+let detailsCache = {};
 
 
-function cache(name, value) {
+function cache (name, value) {
 	if(typeof name === 'object'){
 		detailsCache = name;
 		return;
@@ -25,7 +25,7 @@ function cache(name, value) {
 	throw new Error('Invalid arguments');
 }
 
-cache.clear = function(){
+cache.clear = function () {
 	detailsCache = {};
 };
 
