@@ -1,10 +1,10 @@
 'use strict';
-var request = require('./src/request');
-var cache = require('./src/cache');
-var promises = {};
+const request = require('./src/request');
+const cache = require('./src/cache');
+const promises = {};
 
-function uuid(){
-	var uuid = cache('uuid')
+function uuid (){
+	const uuid = cache('uuid')
 
 	if (uuid){
 		return Promise.resolve({
@@ -12,7 +12,7 @@ function uuid(){
 		});
 	}
 	if (!promises.uuid) {
-		promises.uuid = request('/uuid').then(function(response){
+		promises.uuid = request('/uuid').then(function (response){
 			cache('uuid', response.uuid);
 			return response;
 		});
@@ -21,7 +21,7 @@ function uuid(){
 	return promises.uuid;
 }
 
-function products(){
+function products () {
 	const cachedProducts = cache('products');
 	const cachedUUID = cache('uuid');
 
@@ -29,8 +29,8 @@ function products(){
 		return Promise.resolve({products:cachedProducts, uuid:cachedUUID});
 	}
 
-	if(!promises.products){
-		promises.products = request('/products').then(function(response){
+	if (!promises.products) {
+		promises.products = request('/products').then(function (response) {
 			cache('products', response.products);
 			cache('uuid', response.uuid);
 			return response;
@@ -40,7 +40,7 @@ function products(){
 	return promises.products;
 }
 
-function validate(){
+function validate () {
 	return request('/validate');
 }
 

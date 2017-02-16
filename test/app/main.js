@@ -1,30 +1,31 @@
+/* eslint-disable no-console */
 'use strict';
 
 require('fetch');
 require('es6-promise').polyfill();
 
-var session = require('../../main');
+const session = require('../../main');
 
-function handleClick(e){
-	var target = e.target;
-	var method = target.getAttribute('data-method');
+function handleClick (e){
+	const target = e.target;
+	const method = target.getAttribute('data-method');
 	console.log('Call method ' + method);
-	var result = session[method]();
+	const result = session[method]();
 	if(result.then){
-		result.then(function(response){
+		result.then(function (response){
 			console.log('Response from ' + method + ' is:');
 			console.dir(response);
-		}).catch(function(err){
+		}).catch(function (err){
 			console.error(err);
 		});
-	}else{
+	} else {
 		console.log('Response from ' + method + ' is:');
 		console.dir(result);
 	}
 
 }
 
-function addClick(el){
+function addClick (el){
 	console.log('add click to', el);
 	el.addEventListener('click', handleClick);
 }
