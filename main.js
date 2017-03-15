@@ -1,6 +1,17 @@
-const request = require('./src/request');
-const cache = require('./src/cache');
+import request from './src/request';
+import cache from './src/cache';
+
 const requests = {};
+
+// DEPRECATED: use the secure session, via getSessionId
+const getCookie = () => {
+	return (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1];
+};
+
+const getSessionId = () => {
+	const [, sessionId] = /FTSession_s=([^;]+)/.exec(document.cookie) || [];
+	return sessionId;
+};
 
 const getUuid = () => {
 	const cachedUUID = cache('uuid');
@@ -8,7 +19,7 @@ const getUuid = () => {
 		return Promise.resolve({ uuid: cachedUUID });
 	}
 
-	const [, sessionId] = /FTSession_s=([^;]+)/.exec(document.cookie) || [];
+	const sessionId = getSessionId();
 	if (!sessionId) {
 		return Promise.resolve({ uuid: undefined });
 	}
@@ -52,15 +63,17 @@ const getProducts = () => {
 	return requests.products;
 };
 
+// DEPRECATED: use getUuid, will only return a uuid if session is valid
 const validate = () => {
 	return getUuid()
 		.then(response => response ? true : false);
 };
 
 export {
-	uuid: getUuid,
-	products: getProducts,
+	getUuid as uuid,
+	getProducts as products,
 	validate,
 	cache,
-	cookie: () => (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1]
+	getCookie as cookie,
+	getSessionId as sessionId
 };
