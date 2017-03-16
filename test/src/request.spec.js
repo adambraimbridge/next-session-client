@@ -1,6 +1,5 @@
-const sinon = require('sinon');
-
-const request = require('../src/request');
+/* global sinon */
+import request from '../../src/request';
 
 describe('request', function () {
 	before(function () {
@@ -23,16 +22,12 @@ describe('request', function () {
 		window.fetch = sinon.stub().returns(Promise.resolve({ok:true, json:jsonFunc}));
 	}
 
-	it('Should be able to make a CORS request to the session service', function (done){
+	it('Should be able to make a CORS request to the session service', function () {
 		const email = 'paul.i.wilson@ft.com';
 		setupFetch({email:email});
-		request('/').then(function () {
-			try{
+		return request('/')
+			.then(function () {
 				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {credentials:'include', useCorsProxy: true});
-			}catch(e){
-				done(e);
-			}
-			done();
-		}).catch(done);
+			});
 	});
 });

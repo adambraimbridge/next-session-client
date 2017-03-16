@@ -65,7 +65,7 @@ const getProducts = () => {
 // DEPRECATED: use getUuid, will only return a uuid if session is valid
 const validate = () => {
 	return getUuid()
-		.then(response => response ? true : false);
+		.then(({ uuid }) => uuid ? true : false);
 };
 
 export {

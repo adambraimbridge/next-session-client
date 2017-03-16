@@ -1,5 +1,4 @@
-const sinon = require('sinon');
-
+/* global sinon */
 const session = require('../main');
 
 describe('Session Client', function () {
@@ -44,7 +43,8 @@ describe('Session Client', function () {
 	}
 
 	it('Should be able to get session uuid', function () {
-		setup({uuid:sessionData.uuid}, true);
+		window.document.cookie = 'FTSession_s=1234567890';
+		setup({ uuid: sessionData.uuid }, true);
 		return session.uuid()
 			.then(function (response) {
 				response.uuid.should.equal(sessionData.uuid);

@@ -1,4 +1,4 @@
-import cache from '../src/cache';
+import cache from '../../src/cache';
 
 describe('Cache', function () {
 
