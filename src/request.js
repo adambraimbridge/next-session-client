@@ -1,6 +1,6 @@
-export default url => {
+export default (url, { credentials = 'omit' } = {}) => {
 	return fetch(`https://session-next.ft.com${url}`, {
-		credentials: 'include',
+		credentials,
 		useCorsProxy: true
 	})
 		.then(response => {

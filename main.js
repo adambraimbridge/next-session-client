@@ -46,8 +46,8 @@ const getProducts = () => {
 	}
 
 	if (!requests.products) {
-		requests.products = request('/products')
-			.then(( { products, uuid } = {}) => {
+		requests.products = request('/products', { credentials: 'include' })
+			.then(({ products, uuid } = {}) => {
 				delete requests.products;
 				if (products) {
 					cache('uuid', uuid);
@@ -68,11 +68,11 @@ const validate = () => {
 		.then(({ uuid }) => uuid ? true : false);
 };
 
-export {
-	getUuid as uuid,
-	getProducts as products,
+export default {
+	uuid: getUuid,
+	products: getProducts,
 	validate,
 	cache,
-	getCookie as cookie,
-	getSessionId as sessionId
+	cookie: getCookie,
+	sessionId: getSessionId
 };
