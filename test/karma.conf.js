@@ -1,9 +1,8 @@
-'use strict';
 // Karma configuration
-// Generated on Tue May 12 2015 10:54:45 GMT+0100 (BST)
+// Generated on Thu May 28 2015 16:29:05 GMT+0100 (BST)
 
 module.exports = function (config) {
-	const configuration = {
+	config.set({
 
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '',
@@ -11,12 +10,12 @@ module.exports = function (config) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['browserify', 'mocha'],
+		frameworks: ['mocha', 'chai'],
 
 
 		// list of files / patterns to load in the browser
 		files: [
-			'test/*.spec.js'
+			'**/*.spec.js'
 		],
 
 
@@ -28,12 +27,21 @@ module.exports = function (config) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'test/*.js': [ 'browserify' ]
+			'**/*.js': [ 'webpack' ]
 		},
 
-		browserify: {
-			transform: ['debowerify'],
-			debug: true
+
+		webpack: {
+			module: {
+				loaders: [{
+					test: /\.js$/,
+					exclude: /(node_modules|bower_components)/,
+					loader: 'babel-loader',
+					query: {
+						presets: ['es2015']
+					}
+				}]
+			}
 		},
 
 		// test results reporter to use
@@ -52,34 +60,20 @@ module.exports = function (config) {
 
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_DEBUG,
+		logLevel: config.LOG_INFO,
 
 
 		// enable / disable watching file and executing tests whenever any file changes
-		autoWatch: false,
+		autoWatch: true,
 
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['Chrome'],
+		browsers: ['Firefox'],
 
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
-		singleRun: true,
-
-		customLaunchers: {
-			Chrome_travis_ci: {
-				base: 'Chrome',
-				flags: ['--no-sandbox']
-			}
-		}
-	};
-
-	if(process.env.TRAVIS){
-		configuration.singleRun = true;
-		configuration.browsers = ['PhantomJS'];
-	}
-
-	config.set(configuration);
+		singleRun: true
+	});
 };

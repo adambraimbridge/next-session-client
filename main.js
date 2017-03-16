@@ -3,7 +3,7 @@ import cache from './src/cache';
 
 const requests = {};
 
-// DEPRECATED: use the secure session, via getSessionId
+// DEPRECATED: use the secure session ID, via getSessionId
 const getCookie = () => {
 	return (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1];
 };
@@ -25,7 +25,6 @@ const getUuid = () => {
 	}
 
 	if (!requests.uuid) {
-		// pull out the session id from the FTSession_s cookie
 		requests.uuid = request(`/sessions/s/${sessionId}`)
 			.then(({ uuid } = {}) => {
 				delete requests.uuid;
