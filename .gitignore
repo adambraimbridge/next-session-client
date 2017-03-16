@@ -1,6 +1,7 @@
-.idea/
-node_modules/
-bower_components/
-test/app/public/
-.eslintrc.js
 .editorconfig
+.eslintrc.js
+
+/.idea/
+/bower_components/
+/node_modules/
+/test/app/public/

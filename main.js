@@ -1,55 +1,78 @@
-'use strict';
-const request = require('./src/request');
-const cache = require('./src/cache');
-const promises = {};
+import request from './src/request';
+import cache from './src/cache';
 
-function uuid (){
-	const uuid = cache('uuid')
+const requests = {};
 
-	if (uuid){
-		return Promise.resolve({
-			uuid:uuid
-		});
+// DEPRECATED: use the secure session ID, via getSessionId
+const getCookie = () => {
+	return (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1];
+};
+
+const getSessionId = () => {
+	const [, sessionId] = /FTSession_s=([^;]+)/.exec(document.cookie) || [];
+	return sessionId;
+};
+
+const getUuid = () => {
+	const cachedUUID = cache('uuid');
+	if (cachedUUID) {
+		return Promise.resolve({ uuid: cachedUUID });
 	}
-	if (!promises.uuid) {
-		promises.uuid = request('/uuid').then(function (response){
-			cache('uuid', response.uuid);
-			return response;
-		});
+
+	const sessionId = getSessionId();
+	if (!sessionId) {
+		return Promise.resolve({ uuid: undefined });
 	}
 
-	return promises.uuid;
-}
+	if (!requests.uuid) {
+		requests.uuid = request(`/sessions/s/${sessionId}`)
+			.then(({ uuid } = {}) => {
+				delete requests.uuid;
+				if (uuid) {
+					cache('uuid', uuid);
+				}
+				return { uuid };
+			});
+	}
 
-function products () {
+	return requests.uuid;
+};
+
+const getProducts = () => {
 	const cachedProducts = cache('products');
 	const cachedUUID = cache('uuid');
-
-	if(cachedProducts && cachedUUID){
-		return Promise.resolve({products:cachedProducts, uuid:cachedUUID});
+	if (cachedProducts && cachedUUID){
+		return Promise.resolve({ products: cachedProducts, uuid: cachedUUID });
 	}
 
-	if (!promises.products) {
-		promises.products = request('/products').then(function (response) {
-			cache('products', response.products);
-			cache('uuid', response.uuid);
-			return response;
-		});
+	if (!requests.products) {
+		requests.products = request('/products', { credentials: 'include' })
+			.then(({ products, uuid } = {}) => {
+				delete requests.products;
+				if (products) {
+					cache('uuid', uuid);
+				}
+				if (uuid) {
+					cache('uuid', uuid);
+				}
+				return { products, uuid };
+			});
 	}
 
-	return promises.products;
-}
+	return requests.products;
+};
 
-function validate () {
-	return request('/validate');
-}
+// DEPRECATED: use getUuid, will only return a uuid if session is valid
+const validate = () => {
+	return getUuid()
+		.then(({ uuid }) => uuid ? true : false);
+};
 
-module.exports = {
-	uuid : uuid,
-	validate : validate,
-	cache : cache,
-	products: products,
-	cookie : function () {
-		return (/FTSession=([^;]+)/.exec(document.cookie) || [null, ''])[1];
-	}
+export default {
+	uuid: getUuid,
+	products: getProducts,
+	validate,
+	cache,
+	cookie: getCookie,
+	sessionId: getSessionId
 };

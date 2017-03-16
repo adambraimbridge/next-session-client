@@ -1,13 +1,7 @@
-/* eslint-disable no-console */
-'use strict';
-/*global describe, it, before, afterEach*/
-
-const session = require('../main');
-const sinon = require('sinon');
-const expect = require('chai').expect;
+/* global sinon */
+import session from '../main';
 
 describe('Session Client', function () {
-
 	const jsonpCallbackName = '$$$JSONP_CALLBACK';
 
 	const sessionData = {'uuid':'e1d24b36-30de-434d-a087-e04c17377ac7', 'products': 'P0, P1'};
@@ -48,28 +42,29 @@ describe('Session Client', function () {
 		setupJsonp(data, success);
 	}
 
-	it('Should be able to get session uuid', function (done){
-		setup({uuid:sessionData.uuid}, true);
-		session.uuid().then(function (response){
-			expect(response.uuid).to.equal(sessionData.uuid);
-			done();
-		}).catch(done);
+	it('Should be able to get session uuid', function () {
+		window.document.cookie = 'FTSession_s=1234567890';
+		setup({ uuid: sessionData.uuid }, true);
+		return session.uuid()
+			.then(function (response) {
+				response.uuid.should.equal(sessionData.uuid);
+			});
 	});
 
-	it('Should be able to check if a session is valid', function (done){
+	it('Should be able to check if a session is valid', function () {
 		setup({}, false);
-		session.validate().then(function (isValid){
-			expect(isValid).to.be.false;
-			done();
-		}).catch(done);
+		return session.validate()
+			.then(function (isValid) {
+				isValid.should.be.false;
+			});
 	});
 
 	it('Should be able to get the user\'s products', function () {
 		setup({uuid:sessionData.uuid, products:sessionData.products}, true);
-		return session.products().then(function (response) {
-			console.log(response);
-			expect(response.products).to.equal(sessionData.products);
-		});
+		return session.products()
+			.then(function (response) {
+				response.products.should.equal(sessionData.products);
+			});
 	});
 
 });
@@ -81,7 +76,7 @@ describe('Cookie helper', function () {
 				document.cookie = c + ';';
 			});
 
-		expect(session.cookie()).to.equal('hs9uy(S89`uxf9mymwapSDSA*&Ofnyszyo');
+		session.cookie().should.equal('hs9uy(S89`uxf9mymwapSDSA*&Ofnyszyo');
 	});
 
 	it('should extract missing session id from document.cookie', function () {
@@ -89,6 +84,6 @@ describe('Cookie helper', function () {
 			.split(';').forEach(function (c) {
 				document.cookie = c + ';';
 			});
-		expect(session.cookie()).to.equal('');
+		session.cookie().should.equal('');
 	});
 });

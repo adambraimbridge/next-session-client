@@ -1,32 +1,29 @@
-'use strict';
-
 let detailsCache = {};
 
-
-function cache (name, value) {
-	if(typeof name === 'object'){
+const cache = (name, value) => {
+	if (typeof name === 'object'){
 		detailsCache = name;
 		return;
 	}
 
-	if(typeof name === 'string' && typeof value === 'string') {
+	if (typeof name === 'string' && typeof value === 'string') {
 		detailsCache[name] = value;
 		return;
 	}
 
-	if(typeof name === 'string' && typeof value === 'undefined') {
+	if (typeof name === 'string' && typeof value === 'undefined') {
 		return detailsCache[name] || null;
 	}
 
-	if(typeof name === 'undefined' && typeof value === 'undefined') {
+	if (typeof name === 'undefined' && typeof value === 'undefined') {
 		return detailsCache;
 	}
 
 	throw new Error('Invalid arguments');
 }
 
-cache.clear = function () {
+cache.clear = () => {
 	detailsCache = {};
 };
 
-module.exports = cache;
+export default cache;
