@@ -1,5 +1,5 @@
 /* global sinon */
-const session = require('../main');
+import session from '../main';
 
 describe('Session Client', function () {
 	const jsonpCallbackName = '$$$JSONP_CALLBACK';

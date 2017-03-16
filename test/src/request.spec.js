@@ -27,7 +27,9 @@ describe('request', function () {
 		setupFetch({email:email});
 		return request('/')
 			.then(function () {
-				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {credentials:'include', useCorsProxy: true});
+				sinon.assert.calledWith(window.fetch, 'https://session-next.ft.com/', {
+					credentials: 'omit', useCorsProxy: true
+				});
 			});
 	});
 });
