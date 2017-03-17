@@ -1,30 +1,29 @@
 # Next Session Client
 [![Build Status](https://snap-ci.com/Financial-Times/next-session-client/branch/master/build_image)](https://snap-ci.com/Financial-Times/next-session-client/branch/master)
 
-A client for working with the Ft Next service from the front-end.
+A client for working with the [Next Session service](https://github.com/Financial-Times/next-session).
+
+**Note**: this module is for **client side usage only**; if working from the server, talk to the [Membership Session service](https://developer.ft.com/docs/membership_platform_api) directly.
 
 ## Installing
 
-	npm install --save ft-next-session-client
+	bower i -S next-session-client
 
 
-## Using
+## Usage
 
-	var session = require('ft-next-session-client');
+	const session = require('next-session-client');
 
-	session.validate().then(function(isValid){
-		// true or false
-	});
+    // get the user's uuid from their session
+	session.uuid()
+        .then(({ uuid }) {
+    		// uuid is `undefined` if session isn't valid
+    	});
 
-	// get uuid from session
-	session.uuid().then(function(data){
-		// data will be false if session is invalid
-		var uuid = data.uuid
-	});
+	// get user's products
+	session.products()
+        .then(({ products, uuid }) {
+        });
 
-	// get session cookie
-	session.cookie()
-
-## Note
-
-The `uuid` method is cached server-side.  If you need to be sure that the user is logged in, use `validate()`.
+	// get (secure) session id
+	const sessionId = session.sessionId();
