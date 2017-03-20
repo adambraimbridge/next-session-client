@@ -41,20 +41,29 @@ const getUuid = () => {
 const getProducts = () => {
 	const cachedProducts = cache('products');
 	const cachedUUID = cache('uuid');
-	if (cachedProducts && cachedUUID){
+
+	if (cachedProducts && cachedUUID) {
 		return Promise.resolve({ products: cachedProducts, uuid: cachedUUID });
+	}
+
+	// if we don't have a session token cookie, don't bother...
+	if (!getSessionId()) {
+		return Promise.resolve({});
 	}
 
 	if (!requests.products) {
 		requests.products = request('/products', { credentials: 'include' })
 			.then(({ products, uuid } = {}) => {
-				delete requests.products;
+				requests.products = undefined;
+
 				if (products) {
-					cache('uuid', uuid);
+					cache('products', products);
 				}
+
 				if (uuid) {
 					cache('uuid', uuid);
 				}
+
 				return { products, uuid };
 			});
 	}
