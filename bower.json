@@ -1,16 +1,15 @@
 {
   "name": "next-session-client",
-  "homepage": "https://github.com/Financial-Times/next-session-component",
-  "authors": [
-    "Paul I Wilson <paul.i.wilson@ft.com>"
-  ],
   "main": "main.js",
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
     "test",
-    "tests"
-  ]
+    ".gitignore",
+    "Makefile",
+    "circle.yml",
+    "ft.yml",
+    "n.makefile",
+    "package.json"
+  ],
+  "homepage": "https://github.com/Financial-Times/next-session-client"
 }
