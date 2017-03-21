@@ -14,6 +14,11 @@ const getSessionId = () => {
 };
 
 const getUuid = () => {
+	const cachedUUID = cache('uuid');
+	if (cachedUUID) {
+		return Promise.resolve({ uuid: cachedUUID });
+	}
+
 	const sessionId = getSessionId();
 	if (!sessionId) {
 		return Promise.resolve({ uuid: undefined });
@@ -23,6 +28,9 @@ const getUuid = () => {
 		requests.uuid = request(`/sessions/s/${sessionId}`)
 			.then(({ uuid } = {}) => {
 				delete requests.uuid;
+				if (uuid) {
+					cache('uuid', uuid);
+				}
 				return { uuid };
 			});
 	}
