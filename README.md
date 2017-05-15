@@ -16,13 +16,13 @@ A client for working with the [Next Session service](https://github.com/Financia
 
     // get the user's uuid from their session
 	session.uuid()
-        .then(({ uuid }) {
+        .then(({ uuid }) => {
     		// uuid is `undefined` if session isn't valid
     	});
 
 	// get user's products
 	session.products()
-        .then(({ products, uuid }) {
+        .then(({ products, uuid }) => {
         });
 
 	// get (secure) session id
