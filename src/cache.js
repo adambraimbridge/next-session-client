@@ -20,7 +20,7 @@ const cache = (name, value) => {
 	}
 
 	throw new Error('Invalid arguments');
-}
+};
 
 cache.clear = () => {
 	detailsCache = {};

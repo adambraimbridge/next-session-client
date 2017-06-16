@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@financial-times/n-gage": "^1.5.2",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.0",
     "babel-preset-es2015": "^6.24.0",
@@ -21,5 +22,17 @@
   },
   "engines": {
     "node": "4.4.7"
+  },
+  "config": {
+    "pre-git": {
+      "pre-commit": [],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkout": [],
+      "post-merge": []
+    }
+  },
+  "scripts": {
+    "commit": "commit-wizard"
   }
 }
