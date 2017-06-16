@@ -24,4 +24,4 @@ export default (url, { credentials = 'omit' } = {}) => {
 				}
 			}));
 		});
-}
+};
