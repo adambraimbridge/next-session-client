@@ -4,7 +4,7 @@ import session from '../main';
 describe('Session Client', function () {
 	const jsonpCallbackName = '$$$JSONP_CALLBACK';
 
-	const sessionData = {'uuid':'e1d24b36-30de-434d-a087-e04c17377ac7', 'products': 'P0, P1'};
+	const sessionData = {'uuid':'00000000-0000-0000-0000-000000000000', 'products': 'P0, P1'};
 
 	before(function () {
 		if(document.cookie.indexOf('FTSession=') < 0){
