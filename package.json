@@ -21,10 +21,11 @@
     "webpack": "^2.2.1"
   },
   "engines": {
-    "node": "^4.8.4"
+    "node": "^6"
   },
   "scripts": {
     "precommit": "node_modules/.bin/secret-squirrel",
-    "prepush": "make test"
+    "prepush": "make test && make verify -j3",
+    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg"
   }
 }
