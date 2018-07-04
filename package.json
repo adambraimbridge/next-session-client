@@ -1,4 +1,5 @@
 {
+	"name": "next-session-client",
   "devDependencies": {
     "@financial-times/n-gage": "^1.8.5",
     "babel-core": "^6.24.0",
