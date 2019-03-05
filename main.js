@@ -77,6 +77,17 @@ const validate = () => {
 		.then(({ uuid }) => uuid ? true : false);
 };
 
+
+
+export {
+	getUuid as uuid,
+	getProducts as products,
+	validate,
+	cache,
+	getCookie as cookie,
+	getSessionId as sessionId
+}
+
 export default {
 	uuid: getUuid,
 	products: getProducts,
@@ -84,4 +95,4 @@ export default {
 	cache,
 	cookie: getCookie,
 	sessionId: getSessionId
-};
+}
