@@ -2,7 +2,7 @@
   "name": "next-session-client",
   "version": "0.0.0",
   "devDependencies": {
-    "@financial-times/n-gage": "^3.5.0",
+    "@financial-times/n-gage": "^5.0.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.0",
     "babel-preset-es2015": "^6.24.0",
@@ -24,9 +24,13 @@
     "node": "12.x"
   },
   "scripts": {
-    "precommit": "node_modules/.bin/secret-squirrel",
-    "prepush": "make test && make verify -j3",
-    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
     "prepare": "npx snyk protect || npx snyk protect -d || true"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node_modules/.bin/secret-squirrel-commitmsg",
+      "pre-commit": "node_modules/.bin/secret-squirrel",
+      "pre-push": "make test && make verify -j3"
+    }
   }
 }
